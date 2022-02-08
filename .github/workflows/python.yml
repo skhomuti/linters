@@ -3,11 +3,10 @@ name: Lint Code Base
 on:
   workflow_call:
     inputs:
-      pylint-args:
-        required: false
-        type: string
-        default: ""
       dirs:
+        required: true
+        type: string
+      pylint-args:
         required: false
         type: string
         default: ""
@@ -38,10 +37,10 @@ jobs:
       - run: ls -la
 
       - name: Run pylint checks
-        run: pylint ${{ inputs.pylint-args }} ${{ inputs.dirs || github.workspace }}
+        run: pylint ${{ inputs.pylint-args }} ${{ inputs.dirs }}
 
       - name: Run black checks
-        run: black --check ${{ inputs.dirs || github.workspace }}
+        run: black --check ${{ inputs.dirs }}
 
       - name: Run isort checks
-        run: isort --check ${{ inputs.dirs || github.workspace }}
+        run: isort --check ${{ inputs.dirs }}
