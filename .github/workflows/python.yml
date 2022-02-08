@@ -10,7 +10,7 @@ on:
       dirs:
         required: false
         type: string
-        default: "**/*.py"
+        default: "./**/*.py"
       requirements-file:
         required: false
         type: string
