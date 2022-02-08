@@ -20,8 +20,8 @@ on:
         type: string
         default: "3.10.*"
 jobs:
-  lint:
-    name: Lint Code Base
+  prepare-python:
+    name: Install python requirements
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -35,11 +35,20 @@ jobs:
       - name: Install requirements
         run: pip install pylint black isort && pip install -r ${{ inputs.requirements-file }}
 
-      - name: Run pylint checks
-        run: pylint ${{ inputs.pylint-args }} ${{ inputs.dir }}
+  pylint:
+    name: Run pylint checks
+    runs-on: ubuntu-latest
+    steps:
+      - run: pylint ${{ inputs.pylint-args }} ${{ inputs.dirs }}
 
-      - name: Run black checks
-        run: black --check ${{ inputs.dir }}
+  black:
+    name: Run pylint checks
+    runs-on: ubuntu-latest
+    steps:
+      - run: black --check ${{ inputs.dirs }}
 
-      - name: Run isort checks
-        run: isort --check ${{ inputs.dir }}
+  isort:
+    name: Run pylint checks
+    runs-on: ubuntu-latest
+    steps:
+      - run: isort --check ${{ inputs.dirs }}
