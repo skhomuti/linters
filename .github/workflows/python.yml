@@ -10,7 +10,7 @@ on:
       dirs:
         required: false
         type: string
-        default: ${{ github.workspace }}
+        default: ""
       requirements-file:
         required: false
         type: string
@@ -38,10 +38,10 @@ jobs:
       - run: ls -la
 
       - name: Run pylint checks
-        run: pylint ${{ inputs.pylint-args }} ${{ inputs.dirs }}
+        run: pylint ${{ inputs.pylint-args }} ${{ inputs.dirs || github.workspace }}
 
       - name: Run black checks
-        run: black --check ${{ inputs.dirs }}
+        run: black --check ${{ inputs.dirs || github.workspace }}
 
       - name: Run isort checks
-        run: isort --check ${{ inputs.dirs }}
+        run: isort --check ${{ inputs.dirs || github.workspace }}
