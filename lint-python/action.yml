@@ -12,6 +12,10 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Install lint requirements
+      run: pip install pylint black isort
+      shell: bash
+
     - name: Run pylint checks
       run: pylint ${{ inputs.pylint-args }} ${{ inputs.dirs }}
       shell: bash
