@@ -10,7 +10,7 @@ on:
       dirs:
         required: false
         type: string
-        default: ${{ env.PWD }}
+        default: ${{ github.workspace }}
       requirements-file:
         required: false
         type: string
