@@ -1,7 +1,24 @@
 name: Lint Code Base
 
-on: workflow_call
-
+on:
+  workflow_call:
+    inputs:
+      pylint-args:
+        required: false
+        type: string
+        default: ""
+      dirs:
+        required: false
+        type: string
+        default: "**/*.py"
+      requirements-file:
+        required: false
+        type: string
+        default: "requirements.txt"
+      python-version:
+        required: false
+        type: string
+        default: "3.10.*"
 jobs:
   lint:
     name: Lint Code Base
@@ -13,10 +30,16 @@ jobs:
       - name: Set up Python 3.10
         uses: actions/setup-python@v1
         with:
-          python-version: 3.10.*
+          python-version: ${{ inputs.python-version }}
 
       - name: Install requirements
-        run: pip install pylint && pip install -r requirements.txt
+        run: pip install pylint black isort && pip install -r ${{ inputs.requirements-file }}
 
       - name: Run pylint checks
-        run: pylint ./
+        run: pylint ${{ inputs.pylint-args }} ${{ inputs.dir }}
+
+      - name: Run black checks
+        run: black --check ${{ inputs.dir }}
+
+      - name: Run isort checks
+        run: isort --check ${{ inputs.dir }}
